@@ -1,7 +1,3 @@
-# Secure-Element-Architecture-and-Working
-
-# Extracted Structure from java_card_overview.txt
-
 ## Title
 A Comprehensive Learning Path for the Java Card OS
 
