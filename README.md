@@ -1,5 +1,5 @@
 ## Title
-A Comprehensive Learning Path for the Java Card OS
+**A Comprehensive Learning Path for the Java Card OS**
 
 ---
 
