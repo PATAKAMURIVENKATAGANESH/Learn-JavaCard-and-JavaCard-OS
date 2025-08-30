@@ -1,5 +1,5 @@
-## Title
-**A Comprehensive Learning Path for the Java Card OS**
+## **A Comprehensive Learning Path for the Java Card OS**
+
 ![Road Map](https://github.com/PATAKAMURIVENKATAGANESH/Learn-JavaCard-and-JavaCard-OS/blob/master/NotebookLM%20Mind%20Map%20(1).png)
 ---
 
