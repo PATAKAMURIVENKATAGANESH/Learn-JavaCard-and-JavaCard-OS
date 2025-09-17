@@ -93,4 +93,43 @@
 * Hashes are used to generate **LFDBH**, and then signed in **DAP verification, Tokens, and Receipts** to ensure both integrity and origin authentication.
 
 ---
+Great — here’s a **table mapping** each hashing technique in the **GlobalPlatform Card Specification v2.3.1** to the contexts where it’s used (Tokens, Receipts, LFDBH, Secure Channel Protocols, etc.), along with **why** and **when** it’s applied:
+
+---
+
+### 🔐 Cryptographic Hashing Techniques in GP Spec v2.3.1
+
+| **Hash Algorithm**         | **Where Used**                                                                                                                    | **Why Used**                                                                                   | **When Applied**                                                      |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| **SHA-1**                  | - LFDBH with **3DES** encryption<br>- RSA (PKCS1 v1.5, 1024-bit)<br>- SCP10 Secure Channel (default digest)                       | Backward compatibility with older GP systems; small digest size, efficient on low-power cards. | Legacy cards, RSA-1024 signatures, 3DES-protected content.            |
+| **SHA-256**                | - LFDBH with **AES-128**<br>- RSA PSS/OAEP (>1024-bit)<br>- ECDSA with 256-bit ECC<br>- Tokens & Receipts (default modern choice) | Stronger collision resistance; matches AES-128 and ECC-256 strength.                           | Default in modern GP deployments; tokens, receipts, signatures.       |
+| **SHA-384**                | - LFDBH with **AES-192**<br>- ECDSA with 384-bit ECC                                                                              | Provides security strength matching AES-192 and ECC-384.                                       | Used in higher-security deployments where AES-192/ECC-384 are chosen. |
+| **SHA-512**                | - LFDBH with **AES-256**<br>- ECDSA with ECC-512/521                                                                              | Provides maximum collision and preimage resistance; aligns with AES-256/ECC-521.               | High-assurance environments (govt/defense), AES-256 secured content.  |
+| **MULTOS Asymmetric Hash** | - MULTOS-specific asymmetric operations                                                                                           | Optimized for MULTOS platform crypto stack.                                                    | Only on cards running MULTOS OS.                                      |
+
+---
+
+### 📦 Hash Usage in Key GP Mechanisms
+
+| **Mechanism**                                                              | **Hash Role**                                            | **Hash Selection Rule**                                                                 |
+| -------------------------------------------------------------------------- | -------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| **LFDBH (Load File Data Block Hash)**                                      | Computes integrity digest of applet code before loading. | - SHA-1 if 3DES<br>- SHA-256 if AES-128<br>- SHA-384 if AES-192<br>- SHA-512 if AES-256 |
+| **DAP Verification**                                                       | Signs the LFDBH with issuer’s key to prove authenticity. | Uses same hash as LFDBH for consistency.                                                |
+| **Tokens (Load, Install, Make Selectable, Delete, Registry Update, etc.)** | Token = signature over hash of parameters + LFDBH.       | Follows LFDBH rule; default SHA-256 in modern systems.                                  |
+| **Receipts (Load, Install, Delete, etc.)**                                 | Receipt = signature over hash of operation results.      | Same rule as Tokens; ensures traceable audit integrity.                                 |
+| **RSA Signatures**                                                         | Hash used in PKCS#1 v1.5 or PSS signing.                 | - SHA-1 for 1024-bit RSA<br>- SHA-256 for >1024-bit RSA                                 |
+| **ECDSA Signatures**                                                       | Hash required before signing with ECC private key.       | - SHA-256 for ECC-256<br>- SHA-384 for ECC-384<br>- SHA-512 for ECC-512/521             |
+| **Secure Channel Protocols (SCP)**                                         | Used for entity authentication, C-MAC, R-MAC.            | SCP10: SHA-1 (legacy)<br>SCP11: SHA-256 / SHA-384 / SHA-512 depending on suite          |
+
+---
+
+✅ **In short:**
+
+* Hashing is the foundation for **integrity (LFDBH, receipts)** and **authenticity (tokens, DAP, SCP authentication)**.
+* The spec enforces **hash-to-key-strength matching**: SHA-1 for 3DES/RSA-1024, SHA-256 for AES-128/ECC-256, SHA-384 for AES-192/ECC-384, SHA-512 for AES-256/ECC-512+.
+* Tokens and receipts always rely on the **same hash as LFDBH**, keeping the chain of trust consistent.
+
+---
+
+Would you like me to also create a **diagram flow** showing how hashing ties into **LFDBH → Token/Receipt → DAP Verification → SCP Secure Messaging** (end-to-end integrity chain)?
 
