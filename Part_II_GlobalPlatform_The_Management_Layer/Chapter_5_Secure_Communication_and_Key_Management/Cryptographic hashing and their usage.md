@@ -93,7 +93,7 @@
 * Hashes are used to generate **LFDBH**, and then signed in **DAP verification, Tokens, and Receipts** to ensure both integrity and origin authentication.
 
 ---
-Great — here’s a **table mapping** each hashing technique in the **GlobalPlatform Card Specification v2.3.1** to the contexts where it’s used (Tokens, Receipts, LFDBH, Secure Channel Protocols, etc.), along with **why** and **when** it’s applied:
+**table mapping** each hashing technique in the **GlobalPlatform Card Specification v2.3.1** to the contexts where it’s used (Tokens, Receipts, LFDBH, Secure Channel Protocols, etc.)
 
 ---
 
@@ -131,5 +131,6 @@ Great — here’s a **table mapping** each hashing technique in the **GlobalPla
 
 ---
 
-Would you like me to also create a **diagram flow** showing how hashing ties into **LFDBH → Token/Receipt → DAP Verification → SCP Secure Messaging** (end-to-end integrity chain)?
+
+
 
